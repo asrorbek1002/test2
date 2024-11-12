@@ -7,7 +7,7 @@ import os
 
 # Bot tokeningiz va admin user ID
 BOT_TOKEN = '8033330302:AAErdr31gBB6X808NzsbSRXb9gEfsXqEXK4'
-ADMIN_ID = 6743781488
+ADMIN_ID = 6214462946
 EXCEL_INPUT = 'Aksiyalar-symboli.xlsx'
 EXCEL_OUTPUT = 'stack_info.xlsx'
 
@@ -99,6 +99,7 @@ async def start_info(context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 async def start_info_command(update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    user_id = update.message.from_user.id
     await update.message.reply_text(text="Ma'lumotlarni yuklayabman bir oz kuting...")
     aksiyalar = pd.read_excel(EXCEL_INPUT)['Symbol'].tolist()
     malumotlar = []
@@ -168,8 +169,8 @@ async def start_info_command(update, context: ContextTypes.DEFAULT_TYPE) -> None
 
     # Faylni admin foydalanuvchiga yuborish
     bot = context.bot
-    await bot.send_document(chat_id=ADMIN_ID, document=open(EXCEL_OUTPUT, 'rb'))
-    await bot.send_message(chat_id=ADMIN_ID, text="Barcha ma'lumotlar yuklandi va saqlandi.")
+    await bot.send_document(chat_id=user_id, document=open(EXCEL_OUTPUT, 'rb'))
+    await bot.send_message(chat_id=user_id, text="Barcha ma'lumotlar yuklandi va saqlandi.")
     os.remove(EXCEL_OUTPUT)
 
 
